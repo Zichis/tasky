@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/tasks', function (Request $request) {
+Route::middleware(['cors'])->get('/tasks', function (Request $request) {
     return [
         [
             "id" => 1,
