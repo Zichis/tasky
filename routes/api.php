@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\TasksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('task', TasksController::class);
 
 Route::middleware(['cors'])->get('/tasks', function (Request $request) {
     return [
