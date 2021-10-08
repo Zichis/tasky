@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Task::with(["taskCategory"])->get();
+        $user = $request->user();
+
+        return Task::where('user_id', $user->id)->with(["taskCategory"])->get();
     }
 }
