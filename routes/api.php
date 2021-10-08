@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\v1\TaskCategoriesController;
-use App\Http\Controllers\Api\v1\TasksController;
+use App\Http\Controllers\Api\v1\UserTasksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,7 +12,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('tasks', TasksController::class);
+    Route::resource('tasks', UserTasksController::class);
     Route::resource('task-categories', TaskCategoriesController::class);
     Route::delete('logout', function (Request $request) {
         $request->user()->tokens()->delete();
