@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\TaskCategory;
 use Illuminate\Http\Request;
 
 class TaskCategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+
+        // TODO: Get only user categories
+        return TaskCategory::all();
     }
 
     /**
