@@ -10,7 +10,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["details", "task_category_id", "user_id"];
+    protected $fillable = ["details", "task_category_id", "user_id", "title", "createdby_id"];
 
     // Relationship
     /**
@@ -31,5 +31,15 @@ class Task extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the user that owns the Task
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "createdby_id");
     }
 }
