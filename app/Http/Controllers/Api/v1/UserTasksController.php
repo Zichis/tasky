@@ -43,4 +43,28 @@ class UserTasksController extends Controller
 
         return response(["message" => "Success"], 200);
     }
+
+    public function update(Request $request, Task $task)
+    {
+        $request->validate([
+            'title' => 'required|max:50',
+            'details' => 'required',
+            'task_category.name' => 'required',
+        ]);
+
+        $taskCategory = TaskCategory::where("name", $request->get("task_category")["name"])->first();
+
+        $task->update([
+            "title" => $request->get("title"),
+            "details" => $request->get("details"),
+            "task_category_id" => $taskCategory->id,
+        ]);
+
+        return response(["message" => "Success"], 200);
+    }
+
+    public function show(Request $request, Task $task)
+    {
+        return $task->load('taskCategory');
+    }
 }
