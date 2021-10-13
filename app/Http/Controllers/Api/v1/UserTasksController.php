@@ -27,7 +27,9 @@ class UserTasksController extends Controller
         ]);
 
         $category = TaskCategory::firstOrCreate(
-            ['name' => $request->get("category")["name"]],
+            // $request->get("category") can be a string or array
+            // TODO: Use a better implementation
+            ['name' => $request->get("category")["name"] ?? $request->get("category")],
             ['color' => $request->get("color")]
         );
 
