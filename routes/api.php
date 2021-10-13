@@ -12,8 +12,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('tasks', UserTasksController::class);
-    Route::resource('task-categories', TaskCategoriesController::class);
+    Route::apiResource('tasks', UserTasksController::class);
+    Route::apiResource('task-categories', TaskCategoriesController::class);
     Route::delete('logout', function (Request $request) {
         $request->user()->tokens()->delete();
 
