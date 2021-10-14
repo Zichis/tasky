@@ -63,6 +63,16 @@ class UserTasksController extends Controller
         return response(["message" => "Success"], 200);
     }
 
+    public function destroy(Request $request, Task $task)
+    {
+        $task->delete();
+
+        return Task::where('user_id', $request->user()->id)
+            ->with(["taskCategory"])
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    }
+
     public function show(Request $request, Task $task)
     {
         return $task->load('taskCategory');
