@@ -13,7 +13,7 @@ class TaskCategoriesController extends Controller
         $user = $request->user();
 
         // TODO: Get only user categories
-        return TaskCategory::all();
+        return TaskCategory::with("tasks")->where("user_id", $user->id)->get();
     }
 
     /**
