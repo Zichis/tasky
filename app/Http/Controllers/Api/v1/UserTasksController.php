@@ -30,7 +30,7 @@ class UserTasksController extends Controller
             // $request->get("category") can be a string or array
             // TODO: Use a better implementation
             ['name' => $request->get("category")["name"] ?? $request->get("category")],
-            ['color' => $request->get("color")]
+            ['color' => $request->get("color"), 'user_id' => $request->user()->id]
         );
 
         Task::create([
@@ -46,6 +46,10 @@ class UserTasksController extends Controller
 
     public function update(Request $request, Task $task)
     {
+        if ($request->user()->cannot('update', $task)) {
+            abort(403);
+        }
+
         $request->validate([
             'title' => 'required|max:50',
             'details' => 'required',
@@ -75,6 +79,9 @@ class UserTasksController extends Controller
 
     public function show(Request $request, Task $task)
     {
+        if ($request->user()->cannot('view', $task)) {
+            abort(403);
+        }
         return $task->load('taskCategory');
     }
 }
