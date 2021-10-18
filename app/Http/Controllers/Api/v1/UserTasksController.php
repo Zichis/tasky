@@ -26,12 +26,18 @@ class UserTasksController extends Controller
             // Color should be red, blue, yellow or green
         ]);
 
-        $category = TaskCategory::firstOrCreate(
-            // $request->get("category") can be a string or array
-            // TODO: Use a better implementation
-            ['name' => $request->get("category")["name"] ?? $request->get("category")],
-            ['color' => $request->get("color"), 'user_id' => $request->user()->id]
-        );
+        $category = TaskCategory::where([
+            'name' => $request->get("category")["name"],
+            'user_id' => $request->user()->id
+        ])->first();
+
+        if (is_null($category)) {
+            $category = TaskCategory::create([
+                'name' => $request->get("category")["name"],
+                'user_id' => $request->user()->id,
+                'color' => $request->get("color")
+            ]);
+        }
 
         Task::create([
             "title" => $request->get("title"),
