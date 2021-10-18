@@ -55,4 +55,4 @@ jobs:
           DB_PASSWORD: root
         run: php artisan migrate
       - name: Execute unit tests
-        run: vendor/phpunit/phpunit/phpunit --testsuite Unit --coverage-text --coverage-html=coverage --coverage-clover coverage.xml
+        run: vendor/phpunit/phpunit/phpunit --testsuite Feature --coverage-text --coverage-html=coverage --coverage-clover coverage.xml
