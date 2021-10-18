@@ -63,6 +63,6 @@ class TaskCategoriesController extends Controller
 
     public function names(Request $request)
     {
-        return TaskCategory::pluck("name");
+        return TaskCategory::where("user_id", request()->user()->id)->pluck("name");
     }
 }
