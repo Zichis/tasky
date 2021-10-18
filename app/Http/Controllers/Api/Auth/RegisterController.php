@@ -12,7 +12,7 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|max:30',
             'email' => 'required|unique:users,email',
             'password' => 'required|confirmed'
         ]);
