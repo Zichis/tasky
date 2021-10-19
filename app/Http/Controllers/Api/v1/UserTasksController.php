@@ -75,7 +75,12 @@ class UserTasksController extends Controller
 
     public function destroy(Request $request, Task $task)
     {
+        $category = $task->taskCategory;
         $task->delete();
+
+        if ($category->tasks->count() < 1) {
+            $category->delete();
+        }
 
         return Task::where('user_id', $request->user()->id)
             ->with(["taskCategory"])
