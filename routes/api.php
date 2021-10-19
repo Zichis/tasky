@@ -15,7 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tasks', UserTasksController::class);
     Route::get('task-categories/names', [TaskCategoriesController::class, "names"]);
     Route::apiResource('task-categories', TaskCategoriesController::class);
-    Route::delete('logout', function (Request $request) {
+    Route::post('logout', function (Request $request) {
         $request->user()->tokens()->delete();
 
         return response(["message" => "Logged Out"], 204);
