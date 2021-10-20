@@ -47,7 +47,15 @@ class UserTasksController extends Controller
             "createdby_id" => $request->user()->id
         ]);
 
-        return response(["message" => "Success"], 200);
+        return response([
+            "tasks" => Task::where('user_id', request()->user()->id)
+                ->with(["taskCategory"])
+                ->orderBy('created_at', 'DESC')
+                ->get(),
+            "categories" => TaskCategory::where("user_id", request()->user()->id)
+                ->with("tasks")
+                ->get()
+        ]);
     }
 
     public function update(Request $request, Task $task)
@@ -70,7 +78,10 @@ class UserTasksController extends Controller
             "task_category_id" => $taskCategory->id,
         ]);
 
-        return response(["message" => "Success"], 200);
+        return Task::where('user_id', request()->user()->id)
+            ->with(["taskCategory"])
+            ->orderBy('created_at', 'DESC')
+            ->get();
     }
 
     public function destroy(Request $request, Task $task)
@@ -82,10 +93,15 @@ class UserTasksController extends Controller
             $category->delete();
         }
 
-        return Task::where('user_id', $request->user()->id)
-            ->with(["taskCategory"])
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        return response([
+            "tasks" => Task::where('user_id', request()->user()->id)
+                ->with(["taskCategory"])
+                ->orderBy('created_at', 'DESC')
+                ->get(),
+            "categories" => TaskCategory::where("user_id", request()->user()->id)
+                ->with("tasks")
+                ->get()
+        ]);
     }
 
     public function show(Request $request, Task $task)
