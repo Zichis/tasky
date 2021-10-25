@@ -70,7 +70,13 @@ class UserTasksController extends Controller
             'task_category.name' => 'required',
         ]);
 
+        $currentTaskCategory = $task->taskCategory;
+
         $taskCategory = TaskCategory::where("name", $request->get("task_category")["name"])->first();
+
+        if ($currentTaskCategory->tasks->count() == 1 && $taskCategory->id != $currentTaskCategory->id) {
+            $currentTaskCategory->delete();
+        }
 
         $task->update([
             "title" => $request->get("title"),
@@ -78,10 +84,15 @@ class UserTasksController extends Controller
             "task_category_id" => $taskCategory->id,
         ]);
 
-        return Task::where('user_id', request()->user()->id)
-            ->with(["taskCategory"])
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        return response([
+            "tasks" => Task::where('user_id', request()->user()->id)
+                ->with(["taskCategory"])
+                ->orderBy('created_at', 'DESC')
+                ->get(),
+            "categories" => TaskCategory::where("user_id", request()->user()->id)
+                ->with("tasks")
+                ->get()
+        ]);
     }
 
     public function destroy(Request $request, Task $task)
