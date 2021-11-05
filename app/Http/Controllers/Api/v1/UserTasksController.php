@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\TaskCategory;
+use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 
 class UserTasksController extends Controller
@@ -13,7 +14,7 @@ class UserTasksController extends Controller
     {
         $user = $request->user();
 
-        return Task::where('user_id', $user->id)->with(["taskCategory"])->orderBy('created_at', 'DESC')->get();
+        return Task::where('user_id', $user->id)->with(["taskCategory", "status"])->orderBy('created_at', 'DESC')->get();
     }
 
     public function store(Request $request)
@@ -39,9 +40,12 @@ class UserTasksController extends Controller
             ]);
         }
 
+        $status = TaskStatus::where(["name" => $request->get("status")["name"]])->first();
+
         Task::create([
             "title" => $request->get("title"),
             "details" => $request->get("details"),
+            "status_id" => $status->id,
             "task_category_id" => $category->id,
             "user_id" => $request->user()->id,
             "createdby_id" => $request->user()->id
@@ -49,7 +53,7 @@ class UserTasksController extends Controller
 
         return response([
             "tasks" => Task::where('user_id', request()->user()->id)
-                ->with(["taskCategory"])
+                ->with(["taskCategory", "status"])
                 ->orderBy('created_at', 'DESC')
                 ->get(),
             "categories" => TaskCategory::where("user_id", request()->user()->id)
@@ -86,7 +90,7 @@ class UserTasksController extends Controller
 
         return response([
             "tasks" => Task::where('user_id', request()->user()->id)
-                ->with(["taskCategory"])
+                ->with(["taskCategory", "status"])
                 ->orderBy('created_at', 'DESC')
                 ->get(),
             "categories" => TaskCategory::where("user_id", request()->user()->id)
@@ -106,7 +110,7 @@ class UserTasksController extends Controller
 
         return response([
             "tasks" => Task::where('user_id', request()->user()->id)
-                ->with(["taskCategory"])
+                ->with(["taskCategory", "status"])
                 ->orderBy('created_at', 'DESC')
                 ->get(),
             "categories" => TaskCategory::where("user_id", request()->user()->id)
