@@ -72,11 +72,14 @@ class UserTasksController extends Controller
             'title' => 'required|max:50',
             'details' => 'required',
             'task_category.name' => 'required',
+            'status' => 'required'
         ]);
 
         $currentTaskCategory = $task->taskCategory;
 
         $taskCategory = TaskCategory::where("name", $request->get("task_category")["name"])->first();
+
+        $status = TaskStatus::where(["name" => $request->get("status")["name"]])->first();
 
         if ($currentTaskCategory->tasks->count() == 1 && $taskCategory->id != $currentTaskCategory->id) {
             $currentTaskCategory->delete();
@@ -86,6 +89,7 @@ class UserTasksController extends Controller
             "title" => $request->get("title"),
             "details" => $request->get("details"),
             "task_category_id" => $taskCategory->id,
+            "status_id" => $status->id
         ]);
 
         return response([
@@ -124,6 +128,6 @@ class UserTasksController extends Controller
         if ($request->user()->cannot('view', $task)) {
             abort(403);
         }
-        return $task->load('taskCategory');
+        return $task->load('taskCategory', 'status');
     }
 }
