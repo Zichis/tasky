@@ -15,9 +15,9 @@ class CreateTaskCategoriesTable extends Migration
     {
         Schema::create('task_categories', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("color");
-            $table->foreignId("user_id");
+            $table->string('name');
+            $table->string('color');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

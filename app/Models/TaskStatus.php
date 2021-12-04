@@ -13,7 +13,7 @@ class TaskStatus extends Model
     protected $fillable = ['name'];
 
     /**
-     * Get all of the tasks for the TaskStatus
+     * Get all of the tasks for the TaskStatus.
      *
      * @return HasMany
      */

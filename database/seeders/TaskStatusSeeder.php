@@ -15,15 +15,15 @@ class TaskStatusSeeder extends Seeder
     public function run()
     {
         TaskStatus::create([
-            'name' => "To do"
+            'name' => 'To do',
         ]);
 
         TaskStatus::create([
-            'name' => "In Progress"
+            'name' => 'In Progress',
         ]);
 
         TaskStatus::create([
-            'name' => "Completed"
+            'name' => 'Completed',
         ]);
     }
 }

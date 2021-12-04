@@ -13,20 +13,20 @@ class LoginController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         // Check email
         $user = User::where('email', $validated['email'])->first();
 
         // Check password
-        if (!$user || !Hash::check($validated["password"], $user->password)) {
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response([
-                "message" => "Bad Credentials"
+                'message' => 'Bad Credentials',
             ], 401);
         }
 
-        $token = $user->createToken("app_token")->plainTextToken;
+        $token = $user->createToken('app_token')->plainTextToken;
 
         return response(['user' => $user, 'token' => $token], 201);
     }

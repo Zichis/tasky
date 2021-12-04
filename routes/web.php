@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response(["message" => "Welcome to Tasky Api"]);
+    return response(['message' => 'Welcome to Tasky Api']);
 });

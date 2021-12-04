@@ -11,10 +11,10 @@ class TaskCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name", "color", "user_id"];
+    protected $fillable = ['name', 'color', 'user_id'];
 
     /**
-     * Get all of the tasks for the TaskCategory
+     * Get all of the tasks for the TaskCategory.
      *
      * @return HasMany
      */
@@ -24,7 +24,7 @@ class TaskCategory extends Model
     }
 
     /**
-     * Get the user that owns the TaskCategory
+     * Get the user that owns the TaskCategory.
      *
      * @return BelongsTo
      */

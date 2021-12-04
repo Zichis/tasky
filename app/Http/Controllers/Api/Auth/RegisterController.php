@@ -14,7 +14,7 @@ class RegisterController extends Controller
         $request->validate([
             'name' => 'required|max:30',
             'email' => 'required|unique:users,email',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
         ]);
 
         $user = User::create([
@@ -23,7 +23,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken("app_token")->plainTextToken;
+        $token = $user->createToken('app_token')->plainTextToken;
 
         return response(['user' => $user, 'token' => $token], 201);
     }

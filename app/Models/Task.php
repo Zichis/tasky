@@ -10,11 +10,11 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["details", "status_id", "task_category_id", "user_id", "title", "createdby_id"];
+    protected $fillable = ['details', 'status_id', 'task_category_id', 'user_id', 'title', 'createdby_id'];
 
     // Relationship
     /**
-     * Get the category that owns the Task
+     * Get the category that owns the Task.
      *
      * @return BelongsTo
      */
@@ -24,7 +24,7 @@ class Task extends Model
     }
 
     /**
-     * Get the user that owns the Task
+     * Get the user that owns the Task.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -34,17 +34,17 @@ class Task extends Model
     }
 
     /**
-     * Get the user that owns the Task
+     * Get the user that owns the Task.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, "createdby_id");
+        return $this->belongsTo(User::class, 'createdby_id');
     }
 
     /**
-     * Get the status that owns the Task
+     * Get the status that owns the Task.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

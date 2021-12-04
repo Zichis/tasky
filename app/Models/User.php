@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,7 +44,7 @@ class User extends Authenticatable
 
     // Relationships
     /**
-     * Get all of the tasks for the User
+     * Get all of the tasks for the User.
      *
      * @return HasMany
      */

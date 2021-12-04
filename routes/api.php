@@ -14,13 +14,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tasks', UserTasksController::class);
-    Route::get('task-categories/names', [TaskCategoriesController::class, "names"]);
+    Route::get('task-categories/names', [TaskCategoriesController::class, 'names']);
     Route::apiResource('task-categories', TaskCategoriesController::class);
     Route::apiResource('task-statuses', TaskStatusController::class);
     Route::post('logout', function (Request $request) {
         $request->user()->tokens()->delete();
 
-        return response(["message" => "Logged Out"], 204);
+        return response(['message' => 'Logged Out'], 204);
     });
 });
 
