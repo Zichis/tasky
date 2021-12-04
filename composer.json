@@ -19,7 +19,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpstan/phpstan": "^0.12.99",
+        "nunomaduro/larastan": "^1.0",
         "phpunit/phpunit": "^9.5.8",
         "wulfheart/pretty_routes": "^0.3.0"
     },
@@ -51,10 +51,13 @@
         ],
         "sniff": [
             "./vendor/bin/php-cs-fixer fix -vvv --dry-run --show-progress=dots"
-       ],
-       "lint": [
+        ],
+        "lint": [
            "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots"
-       ]
+        ],
+        "analyze": [
+            "./vendor/bin/phpstan analyse"
+        ]
     },
     "extra": {
         "laravel": {
