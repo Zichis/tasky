@@ -20,6 +20,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "nunomaduro/larastan": "^1.0",
+        "phpmd/phpmd": "^2.11",
         "phpunit/phpunit": "^9.5.8",
         "wulfheart/pretty_routes": "^0.3.0"
     },
