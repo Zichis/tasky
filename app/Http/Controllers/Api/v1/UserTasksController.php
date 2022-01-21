@@ -21,7 +21,7 @@ class UserTasksController extends Controller
     {
         $request->validate([
             'title' => 'required|max:50',
-            'details' => 'required',
+            'details' => 'required|max:255',
             'category' => 'required',
             // TODO: Add color here. This depends on if category is a new category.
             // Color should be red, blue, yellow or green
