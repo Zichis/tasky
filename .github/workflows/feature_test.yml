@@ -37,4 +37,4 @@ jobs:
           php artisan key:generate
 
       - name: Run Testsuite
-        run: vendor/bin/phpunit --testsuite Feature --coverage-text --coverage-html=coverage --coverage-clover coverage.xml
+        run: vendor/bin/phpunit --testsuite Feature --testdox
