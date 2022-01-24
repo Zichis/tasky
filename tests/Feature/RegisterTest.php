@@ -27,7 +27,7 @@ class RegisterTest extends TestCase
             ->assertSee('John Test');
     }
 
-    public function test__wrong_password_confirmation()
+    public function test_wrong_password_confirmation()
     {
         $response = $this->withHeaders([
             'Accept' => 'application/json'
