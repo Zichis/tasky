@@ -10,7 +10,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['details', 'status_id', 'task_category_id', 'user_id', 'title', 'createdby_id'];
+    protected $fillable = ['details', 'status_id', 'task_category_id', 'user_id', 'title', 'createdby_id', 'priority_id'];
 
     // Relationship
     /**
@@ -51,5 +51,15 @@ class Task extends Model
     public function status(): BelongsTo
     {
         return $this->belongsTo(TaskStatus::class);
+    }
+
+    /**
+     * Get the priority that owns the Task
+     *
+     * @return BelongsTo
+     */
+    public function priority(): BelongsTo
+    {
+        return $this->belongsTo(TaskPriority::class);
     }
 }
