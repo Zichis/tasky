@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('title', 50);
             $table->string('details');
             $table->foreignId('status_id');
+            $table->foreignId('priority_id');
             $table->foreignId('task_category_id');
             $table->foreignId('user_id');
             $table->foreignId('createdby_id');

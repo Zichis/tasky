@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\TaskCategory;
+use App\Models\TaskPriority;
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,7 @@ class UserTasksController extends Controller
             'title' => 'required|max:50',
             'details' => 'required|max:255',
             'category' => 'required',
+            'priority' => 'required'
             // TODO: Add color here. This depends on if category is a new category.
             // Color should be red, blue, yellow or green
         ]);
@@ -41,11 +43,13 @@ class UserTasksController extends Controller
         }
 
         $status = TaskStatus::where(['name' => $request->get('status')['name']])->first();
+        $priority = TaskPriority::where(['name' => $request->get('priority')['name']])->first();
 
         Task::create([
             'title' => $request->get('title'),
             'details' => $request->get('details'),
             'status_id' => $status->id,
+            'priority_id' => $priority->id,
             'task_category_id' => $category->id,
             'user_id' => $request->user()->id,
             'createdby_id' => $request->user()->id,
