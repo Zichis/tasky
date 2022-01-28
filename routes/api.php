@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\v1\TaskCategoriesController;
+use App\Http\Controllers\Api\v1\TaskPriorityController;
 use App\Http\Controllers\Api\v1\TaskStatusController;
 use App\Http\Controllers\Api\v1\UserTasksController;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('task-categories/names', [TaskCategoriesController::class, 'names']);
     Route::apiResource('task-categories', TaskCategoriesController::class);
     Route::apiResource('task-statuses', TaskStatusController::class);
+    Route::apiResource('task-priorities', TaskPriorityController::class);
     Route::post('logout', function (Request $request) {
         $request->user()->tokens()->delete();
 
