@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Models\TaskCategory;
 use App\Models\TaskPriority;
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
@@ -15,7 +14,7 @@ class UserTasksController extends Controller
     {
         $user = $request->user();
 
-        return Task::where('user_id', $user->id)->with(['taskCategory', 'status'])->orderBy('created_at', 'DESC')->get();
+        return Task::where('user_id', $user->id)->with(['priority', 'status'])->orderBy('created_at', 'DESC')->get();
     }
 
     public function store(Request $request)
@@ -23,24 +22,8 @@ class UserTasksController extends Controller
         $request->validate([
             'title' => 'required|max:50',
             'details' => 'required|max:255',
-            'category' => 'required',
             'priority' => 'required'
-            // TODO: Add color here. This depends on if category is a new category.
-            // Color should be red, blue, yellow or green
         ]);
-
-        $category = TaskCategory::where([
-            'name' => $request->get('category')['name'],
-            'user_id' => $request->user()->id,
-        ])->first();
-
-        if (is_null($category)) {
-            $category = TaskCategory::create([
-                'name' => $request->get('category')['name'],
-                'user_id' => $request->user()->id,
-                'color' => $request->get('color'),
-            ]);
-        }
 
         $status = TaskStatus::where(['name' => $request->get('status')['name']])->first();
         $priority = TaskPriority::where(['name' => $request->get('priority')['name']])->first();
@@ -50,18 +33,14 @@ class UserTasksController extends Controller
             'details' => $request->get('details'),
             'status_id' => $status->id,
             'priority_id' => $priority->id,
-            'task_category_id' => $category->id,
             'user_id' => $request->user()->id,
             'createdby_id' => $request->user()->id,
         ]);
 
         return response([
             'tasks' => Task::where('user_id', request()->user()->id)
-                ->with(['taskCategory', 'status'])
+                ->with(['priority', 'status'])
                 ->orderBy('created_at', 'DESC')
-                ->get(),
-            'categories' => TaskCategory::where('user_id', request()->user()->id)
-                ->with('tasks')
                 ->get(),
         ]);
     }
@@ -75,54 +54,36 @@ class UserTasksController extends Controller
         $request->validate([
             'title' => 'required|max:50',
             'details' => 'required',
-            'task_category.name' => 'required',
             'status' => 'required',
+            'priority' => 'required'
         ]);
 
-        $currentTaskCategory = $task->taskCategory;
-
-        $taskCategory = TaskCategory::where('name', $request->get('task_category')['name'])->first();
-
         $status = TaskStatus::where(['name' => $request->get('status')['name']])->first();
-
-        if ($currentTaskCategory->tasks->count() == 1 && $taskCategory->id != $currentTaskCategory->id) {
-            $currentTaskCategory->delete();
-        }
+        $priority = TaskPriority::where(['name' => $request->get('priority')['name']])->first();
 
         $task->update([
             'title' => $request->get('title'),
             'details' => $request->get('details'),
-            'task_category_id' => $taskCategory->id,
             'status_id' => $status->id,
+            'priority_id' => $priority->id,
         ]);
 
         return response([
             'tasks' => Task::where('user_id', request()->user()->id)
-                ->with(['taskCategory', 'status'])
+                ->with(['priority', 'status'])
                 ->orderBy('created_at', 'DESC')
-                ->get(),
-            'categories' => TaskCategory::where('user_id', request()->user()->id)
-                ->with('tasks')
                 ->get(),
         ]);
     }
 
     public function destroy(Request $request, Task $task)
     {
-        $category = $task->taskCategory;
         $task->delete();
-
-        if ($category->tasks->count() < 1) {
-            $category->delete();
-        }
 
         return response([
             'tasks' => Task::where('user_id', request()->user()->id)
-                ->with(['taskCategory', 'status'])
+                ->with(['priority', 'status'])
                 ->orderBy('created_at', 'DESC')
-                ->get(),
-            'categories' => TaskCategory::where('user_id', request()->user()->id)
-                ->with('tasks')
                 ->get(),
         ]);
     }
@@ -133,6 +94,6 @@ class UserTasksController extends Controller
             abort(403);
         }
 
-        return $task->load('taskCategory', 'status');
+        return $task->load('priority', 'status');
     }
 }
