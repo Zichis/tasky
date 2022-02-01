@@ -8,9 +8,9 @@ use App\Http\Controllers\Api\v1\UserTasksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Auth
+Route::post('/register', [RegisterController::class, 'store'])->name('user.register');
+Route::post('/login', [LoginController::class, 'login'])->name('user.login');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tasks', UserTasksController::class);
@@ -22,7 +22,3 @@ Route::middleware('auth:sanctum')->group(function () {
         return response(['message' => 'Logged Out'], 204);
     });
 });
-
-// Auth
-Route::post('/register', [RegisterController::class, 'store'])->name('user.register');
-Route::post('/login', [LoginController::class, 'login'])->name('user.login');
