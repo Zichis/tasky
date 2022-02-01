@@ -18,7 +18,7 @@ class TaskPrioritySeeder extends Seeder
         TaskPriority::firstOrCreate([
             'name' => 'Low',
             'slug' => Str::slug('Low'),
-            'color' => '#e6e6e6'
+            'color' => '#a6a6a6'
         ]);
 
         TaskPriority::firstOrCreate([
