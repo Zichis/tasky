@@ -9,6 +9,10 @@ use App\Http\Controllers\Api\v1\UserTasksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 // Auth
 Route::post('/register', [RegisterController::class, 'store'])->name('user.register');
 Route::post('/register-organization', [OrganizationRegisterController::class, 'store'])->name('company.register');
