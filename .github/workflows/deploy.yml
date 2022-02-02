@@ -1,0 +1,25 @@
+name: Feature Tests
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Untasky Api
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.UNTASKY_SSH_HOST}}
+          key: ${{secrets.UNTASKY_SSH_KEY}}
+          username: ${{secrets.UNTASKY_SSH_USER}}
+
+          script: |
+            cd /var/www/html/untasky_api
+            php artisan down
+            git pull origin master
+            composer install
+            php artisan route:cache
+            php artisan up
+            echo 'Deployment successful'
