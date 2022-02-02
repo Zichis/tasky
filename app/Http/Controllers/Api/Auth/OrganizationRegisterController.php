@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Organization;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class OrganizationRegisterController extends Controller
@@ -19,27 +21,36 @@ class OrganizationRegisterController extends Controller
             'organization_name' => 'required|unique:organizations,name',
             'organization_email' => 'required|unique:organizations,email',
             'organization_address' => 'required',
-            'organization_brief_info' => 'nullable'
+            'brief_info' => 'nullable'
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        DB::beginTransaction();
 
-        $organization = Organization::create([
-            'name' => $request->get('organization_name'),
-            'email' => $request->get('organization_email'),
-            'address' => $request->get('organization_address'),
-            'brief_info' => $request->get('organization_brief_info'),
-            'super_admin_id' => $user->id
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        $user->update(['organization_id' => $organization->id]);
+            $organization = Organization::create([
+                'name' => $request->get('organization_name'),
+                'email' => $request->get('organization_email'),
+                'address' => $request->get('organization_address'),
+                'brief_info' => $request->get('brief_info'),
+                'super_admin_id' => $user->id
+            ]);
 
-        $token = $user->createToken('app_token')->plainTextToken;
+            $user->update(['organization_id' => $organization->id]);
 
-        return response(['user' => $user, 'token' => $token], 201);
+            DB::commit();
+
+            $token = $user->createToken('app_token')->plainTextToken;
+        } catch (Exception $e) {
+            DB::rollBack();
+            return "Account not registered. " . $e->getMessage();
+        }
+
+        return response(['user' => $user, 'organization' => $organization, 'token' => $token], 201);
     }
 }
