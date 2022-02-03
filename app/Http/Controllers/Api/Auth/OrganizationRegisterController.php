@@ -48,7 +48,7 @@ class OrganizationRegisterController extends Controller
             $token = $user->createToken('app_token')->plainTextToken;
         } catch (Exception $e) {
             DB::rollBack();
-            return "Account not registered. " . $e->getMessage();
+            return response(["message" => "Account not registered. " . $e->getMessage()], 500);
         }
 
         return response(['user' => $user, 'organization' => $organization, 'token' => $token], 201);
