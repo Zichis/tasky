@@ -32,4 +32,9 @@ class Organization extends Model
     {
         return $this->belongsToMany(User::class, 'organizations_users');
     }
+
+    public function ownedTasks()
+    {
+        return $this->morphMany(Task::class, 'taskable');
+    }
 }

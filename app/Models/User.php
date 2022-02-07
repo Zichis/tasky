@@ -56,6 +56,16 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
+    public function ownedTasks()
+    {
+        return $this->morphMany(Task::class, 'taskable');
+    }
+
+    public function createdTasks()
+    {
+        return $this->hasMany(Task::class, 'createdby_id');
+    }
+
     /**
      * The organizations that belong to the User
      *
