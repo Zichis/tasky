@@ -12,7 +12,7 @@ class Organization extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'address', 'brief_info', 'super_admin_id'];
+    protected $fillable = ['name', 'slug', 'email', 'address', 'brief_info', 'super_admin_id'];
 
     /**
      * Get the superAdmin associated with the Organization
