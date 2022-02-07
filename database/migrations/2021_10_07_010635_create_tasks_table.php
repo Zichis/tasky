@@ -21,6 +21,8 @@ class CreateTasksTable extends Migration
             $table->foreignId('priority_id');
             $table->foreignId('user_id');
             $table->foreignId('createdby_id');
+            $table->unsignedInteger('taskable_id');
+            $table->string('taskable_type');
             $table->timestamps();
         });
     }
