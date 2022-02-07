@@ -13,4 +13,9 @@ class OrganizationsController extends Controller
     {
         return OrganizationResource::collection(auth()->user()->organizations);
     }
+
+    public function show(Organization $my_organization)
+    {
+        return new OrganizationResource($my_organization);
+    }
 }
