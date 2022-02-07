@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\OrganizationRegisterController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\v1\TaskPriorityController;
 use App\Http\Controllers\Api\v1\TaskStatusController;
+use App\Http\Controllers\Api\v1\User\OrganizationsController;
 use App\Http\Controllers\Api\v1\UserTasksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tasks', UserTasksController::class);
     Route::apiResource('task-statuses', TaskStatusController::class);
     Route::apiResource('task-priorities', TaskPriorityController::class);
+    Route::apiResource('my-organizations', OrganizationsController::class);
     Route::post('logout', function (Request $request) {
         $request->user()->tokens()->delete();
 

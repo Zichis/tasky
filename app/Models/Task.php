@@ -51,4 +51,9 @@ class Task extends Model
     {
         return $this->belongsTo(TaskPriority::class);
     }
+
+    public function taskable()
+    {
+        return $this->morphTo();
+    }
 }
