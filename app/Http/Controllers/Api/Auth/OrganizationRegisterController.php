@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class OrganizationRegisterController extends Controller
 {
@@ -35,6 +36,7 @@ class OrganizationRegisterController extends Controller
 
             $organization = Organization::create([
                 'name' => $request->get('organization_name'),
+                'slug' => Str::slug($request->get('organization_name')),
                 'email' => $request->get('organization_email'),
                 'address' => $request->get('organization_address'),
                 'brief_info' => $request->get('brief_info'),
