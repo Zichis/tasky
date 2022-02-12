@@ -35,6 +35,8 @@ class UserTasksController extends Controller
             'priority_id' => $priority->id,
             'user_id' => $request->user()->id,
             'createdby_id' => $request->user()->id,
+            'taskable_id' => auth()->user()->id,
+            'taskable_type' => 'App\Models\User'
         ]);
 
         return response([
