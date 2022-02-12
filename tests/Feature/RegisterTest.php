@@ -40,7 +40,6 @@ class RegisterTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertSee('The password confirmation does not match.')
-            ->assertSee('The given data was invalid.');
+            ->assertSee('The password confirmation does not match.');
     }
 }
