@@ -43,7 +43,7 @@ class OrganizationRegisterController extends Controller
                 'super_admin_id' => $user->id
             ]);
 
-            $user->update(['organization_id' => $organization->id]);
+            $organization->users()->sync($user);
 
             DB::commit();
 
